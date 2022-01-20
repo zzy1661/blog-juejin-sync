@@ -95,8 +95,10 @@ function syncBlob(index) {
                 let mark_content = article_info.value.properties.find(item => item.key.name == 'mark_content')
                 let title = article_info.value.properties.find(item => item.key.name == 'title');
                 let t = title.value.value + '.md';
-                // console.log(t)
-                fs.writeFile('./blogs/' + t, mark_content.value.value, (err, data) => {
+                // 非法文件名
+                let filePath = './blogs/' + t.replace(/[\\\/\:\*\?\"<>]/g,' ');
+                
+                fs.writeFile(filePath, mark_content.value.value, (err) => {
                     if (!err) {
                         console.log(`${t}：done`)
                         syncBlob(index+1)
